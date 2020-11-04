@@ -35,7 +35,7 @@ try:
                 if (metaLen > 0):
                     content=response.read(metaLen) 
                     title = content.decode("utf-8").split("'")[1]
-                    print(title)    
+                    print(title)
                     
                 receivedBytes = 0                    
                     

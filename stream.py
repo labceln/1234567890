@@ -1,6 +1,14 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov  4 10:54:38 2020
+
+@author: TSG023
+"""
+
+
 import urllib.request
 
-stream_url = 'http://74.91.125.137:8000/stream/2/'
+stream_url = 'http://37.251.146.169:8300/stream'
 request = urllib.request.Request(stream_url)
 try:
     request.add_header('Icy-MetaData', 1)
@@ -8,13 +16,15 @@ try:
     icy_metaint_header = int(response.headers.get('icy-metaint'))
     if icy_metaint_header is not None:
         metaint = icy_metaint_header
-        read_buffer = metaint+1
-        content = response.read(read_buffer)
-        metaLen=content[metaint]*16
-        content=response.read(metaLen)
-        title = content.decode("utf-8").split("'")[1]
-        print (title)
-    
+        content = response.read(metaint+1)
+        metaLen=content[-1]*16
+        if metaLen ==0:
+            print ("no title")
+        else :    
+            content=response.read(metaLen)
+            title = content.decode("utf-8").split("'")[1]
+            print (title)
+        
     count=512
     with open("data", "wb") as fout:
         receivedBytes=0
